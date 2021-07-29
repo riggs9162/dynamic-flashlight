@@ -66,11 +66,7 @@ end
 if SERVER then
     hook.Add("PlayerSwitchFlashlight", "DynamicFlashlightDefault", function(ply)
         ply:SetNWBool("DynamicFlashlight", !ply:GetNWBool("DynamicFlashlight"))
-        if ply:GetNWBool("DynamicFlashlight") == true then
-            ply:EmitSound("items/flashlight1.wav", 60, 100)
-        else
-            ply:EmitSound("buttons/lightswitch2.wav", 60, 50)
-        end
+        ply:EmitSound("items/flashlight1.wav", 60, 100)
 
         return false
     end)
