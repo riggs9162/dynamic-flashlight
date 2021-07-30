@@ -1,7 +1,8 @@
 if CLIENT then
+    LocalPlayer().DynamicFlashlight = LocalPlayer().DynamicFlashlight or {}
     for k, v in ipairs(player.GetAll()) do
         if (IsValid(v)) then
-            v.DynamicFlashlight = {}
+            v.DynamicFlashlight = v.DynamicFlashlight or {}
 
             local plypos = v:GetPos()
             local plyang = v:GetAngles()
@@ -21,7 +22,7 @@ if CLIENT then
     hook.Add("Think", "DynamicFlashlight", function()
         for k, v in ipairs(player.GetAll()) do
             if (IsValid(v)) then
-                v.DynamicFlashlight = {}
+                v.DynamicFlashlight = v.DynamicFlashlight or {}
                 if (v:GetNWBool("DynamicFlashlight") == true) then
                     if IsValid(v.DynamicFlashlight.LightProjected) then
                         local vpos = v:GetPos()
