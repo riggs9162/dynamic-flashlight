@@ -21,6 +21,7 @@ if CLIENT then
     hook.Add("Think", "DynamicFlashlight", function()
         for k, v in ipairs(player.GetAll()) do
             if (IsValid(v)) then
+                v.DynamicFlashlight = {}
                 if (v:GetNWBool("DynamicFlashlight") == true) then
                     if IsValid(v.DynamicFlashlight.LightProjected) then
                         local vpos = v:GetPos()
