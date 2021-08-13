@@ -5,7 +5,7 @@ if CLIENT then
                 if IsValid(v.DynamicFlashlight) then
                     local vpos = v:GetPos()
                     local vang = v:GetAngles()
-                    v.DynamicFlashlight:SetPos(Vector(vpos.x, vpos.y, vpos.z + 40) + v:GetForward() * 20)
+                    v.DynamicFlashlight:SetPos(Vector(vpos[1], vpos[2], vpos[3] + 40) + v:GetForward() * 20)
                     v.DynamicFlashlight:SetAngles(vang)
                     v.DynamicFlashlight:SetFarZ(900)
                     v.DynamicFlashlight:SetFOV(70)
@@ -21,9 +21,7 @@ if CLIENT then
             end
         end
     end)
-end
-
-if SERVER then
+else
     hook.Add("PlayerSwitchFlashlight", "DynamicFlashlightDefault", function(ply)
         ply:SetNWBool("DynamicFlashlight", not ply:GetNWBool("DynamicFlashlight"))
         ply:EmitSound("items/flashlight1.wav", 60, 100)
