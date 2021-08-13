@@ -1,28 +1,54 @@
 if CLIENT then
-    hook.Add("Think", "DynamicFlashlight", function()
-        for _, v in ipairs(player.GetAll()) do
-            if v:GetNWBool("DynamicFlashlight") then
-                if IsValid(v.DynamicFlashlight) then
-                    local vpos = v:GetPos()
-                    local vang = v:GetAngles()
-                    v.DynamicFlashlight:SetPos(Vector(vpos[1], vpos[2], vpos[3] + 40) + v:GetForward() * 20)
-                    v.DynamicFlashlight:SetAngles(vang)
-                    v.DynamicFlashlight:SetFarZ(900)
-                    v.DynamicFlashlight:SetFOV(70)
-                    v.DynamicFlashlight:Update()
+    local cache = {}
+    local function UpdateCache(entity, state)
+        if not entity:IsPlayer() then return end
+
+        if state then
+            table.insert(cache, entity)
+        else
+            for i = 1, #cache do
+                if cache[i] == entity then
+                    table.remove(cache, i)
+                end
+            end
+        end
+    end
+
+    hook.Add("NotifyShouldTransmit", "DynamicFlashlight.PVS_Cache", function(entity, state)
+        UpdateCache(entity, state)
+    end)
+
+    hook.Add("EntityRemoved", "DynamicFlashlight.PVS_Cache", function(entity)
+        UpdateCache(entity, false)
+    end)
+
+    hook.Add("Think", "DynamicFlashlight.Rendering", function()
+        for i = 1, #cache do
+            local target = cache[i]
+
+            if target:GetNWBool("DynamicFlashlight") then
+                if target.DynamicFlashlight then
+                    local position = target:GetPos()
+
+                    target.DynamicFlashlight:SetPos(Vector(position[1], position[2], position[3] + 40) + target:GetForward() * 20)
+                    target.DynamicFlashlight:SetAngles(target:GetAngles())
+                    target.DynamicFlashlight:SetFarZ(900)
+                    target.DynamicFlashlight:SetFOV(70)
+                    target.DynamicFlashlight:Update()
                 else
-                    v.DynamicFlashlight = ProjectedTexture()
-                    v.DynamicFlashlight:SetTexture("effects/flashlight001")
+                    target.DynamicFlashlight = ProjectedTexture()
+                    target.DynamicFlashlight:SetTexture("effects/flashlight001")
                 end
             else
-                if IsValid(v.DynamicFlashlight) then
-                    v.DynamicFlashlight:Remove()
+                if target.DynamicFlashlight then
+                    target.DynamicFlashlight:Remove()
+                    target.DynamicFlashlight = nil
                 end
             end
         end
     end)
 else
-    hook.Add("PlayerSwitchFlashlight", "DynamicFlashlightDefault", function(ply)
+    hook.Add("PlayerSwitchFlashlight", "DynamicFlashlight.Switch", function(ply, state)
         ply:SetNWBool("DynamicFlashlight", not ply:GetNWBool("DynamicFlashlight"))
         ply:EmitSound("items/flashlight1.wav", 60, 100)
 
