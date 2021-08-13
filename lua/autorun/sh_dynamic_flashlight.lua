@@ -1,43 +1,22 @@
 if CLIENT then
-    LocalPlayer().DynamicFlashlight = LocalPlayer().DynamicFlashlight or {}
-    for _, v in ipairs(player.GetAll()) do
-        v.DynamicFlashlight = v.DynamicFlashlight or {}
-
-        local plypos = v:GetPos()
-        local plyang = v:GetAngles()
-        local projectedlight = ProjectedTexture()
-        v.DynamicFlashlight.LightProjected = projectedlight
-
-        v.DynamicFlashlight.LightProjected:SetTexture("effects/flashlight001")
-        v.DynamicFlashlight.LightProjected:SetPos(Vector(plypos.x, plypos.y, plypos.z + 40))
-        v.DynamicFlashlight.LightProjected:SetAngles(plyang)
-        v.DynamicFlashlight.LightProjected:SetFarZ(900)
-        v.DynamicFlashlight.LightProjected:SetFOV(70)
-
-        v.DynamicFlashlight.LightProjected:Update()
-    end
-
     hook.Add("Think", "DynamicFlashlight", function()
         for _, v in ipairs(player.GetAll()) do
-            v.DynamicFlashlight = v.DynamicFlashlight or {}
             if v:GetNWBool("DynamicFlashlight") then
-                if IsValid(v.DynamicFlashlight.LightProjected) then
+                if IsValid(v.DynamicFlashlight) then
                     local vpos = v:GetPos()
                     local vang = v:GetAngles()
-                    v.DynamicFlashlight.LightProjected:SetPos(Vector(vpos.x, vpos.y, vpos.z + 40) + v:GetForward() * 20)
-                    v.DynamicFlashlight.LightProjected:SetAngles(vang)
-                    v.DynamicFlashlight.LightProjected:SetFarZ(900)
-                    v.DynamicFlashlight.LightProjected:SetFOV(70)
-                    v.DynamicFlashlight.LightProjected:Update()
+                    v.DynamicFlashlight:SetPos(Vector(vpos.x, vpos.y, vpos.z + 40) + v:GetForward() * 20)
+                    v.DynamicFlashlight:SetAngles(vang)
+                    v.DynamicFlashlight:SetFarZ(900)
+                    v.DynamicFlashlight:SetFOV(70)
+                    v.DynamicFlashlight:Update()
                 else
-                    local projectedlight = ProjectedTexture()
-                    v.DynamicFlashlight.LightProjected = projectedlight
-
-                    v.DynamicFlashlight.LightProjected:SetTexture("effects/flashlight001")
+                    v.DynamicFlashlight = ProjectedTexture()
+                    v.DynamicFlashlight:SetTexture("effects/flashlight001")
                 end
             else
-                if IsValid(v.DynamicFlashlight.LightProjected) then
-                    v.DynamicFlashlight.LightProjected:Remove()
+                if IsValid(v.DynamicFlashlight) then
+                    v.DynamicFlashlight:Remove()
                 end
             end
         end
