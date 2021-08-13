@@ -1,6 +1,6 @@
 if CLIENT then
     LocalPlayer().DynamicFlashlight = LocalPlayer().DynamicFlashlight or {}
-    for k, v in ipairs(player.GetAll()) do
+    for _, v in ipairs(player.GetAll()) do
         v.DynamicFlashlight = v.DynamicFlashlight or {}
 
         local plypos = v:GetPos()
@@ -18,9 +18,9 @@ if CLIENT then
     end
 
     hook.Add("Think", "DynamicFlashlight", function()
-        for k, v in ipairs(player.GetAll()) do
+        for _, v in ipairs(player.GetAll()) do
             v.DynamicFlashlight = v.DynamicFlashlight or {}
-            if (v:GetNWBool("DynamicFlashlight") == true) then
+            if v:GetNWBool("DynamicFlashlight") then
                 if IsValid(v.DynamicFlashlight.LightProjected) then
                     local vpos = v:GetPos()
                     local vang = v:GetAngles()
@@ -46,7 +46,7 @@ end
 
 if SERVER then
     hook.Add("PlayerSwitchFlashlight", "DynamicFlashlightDefault", function(ply)
-        ply:SetNWBool("DynamicFlashlight", !ply:GetNWBool("DynamicFlashlight"))
+        ply:SetNWBool("DynamicFlashlight", not ply:GetNWBool("DynamicFlashlight"))
         ply:EmitSound("items/flashlight1.wav", 60, 100)
 
         return false
