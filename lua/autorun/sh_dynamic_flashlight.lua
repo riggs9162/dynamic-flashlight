@@ -31,13 +31,13 @@ if CLIENT then
                     local position = target:GetPos()
 
                     target.DynamicFlashlight:SetPos(Vector(position[1], position[2], position[3] + 40) + target:GetForward() * 20)
-                    target.DynamicFlashlight:SetAngles(target:GetAngles())
-                    target.DynamicFlashlight:SetFarZ(900)
-                    target.DynamicFlashlight:SetFOV(70)
+                    target.DynamicFlashlight:SetAngles(target:EyeAngles())
                     target.DynamicFlashlight:Update()
                 else
                     target.DynamicFlashlight = ProjectedTexture()
                     target.DynamicFlashlight:SetTexture("effects/flashlight001")
+                    target.DynamicFlashlight:SetFarZ(900)
+                    target.DynamicFlashlight:SetFOV(70)
                 end
             else
                 if target.DynamicFlashlight then
