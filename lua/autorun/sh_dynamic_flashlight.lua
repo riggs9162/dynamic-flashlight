@@ -50,7 +50,7 @@ if CLIENT then
 else
     hook.Add("PlayerSwitchFlashlight", "DynamicFlashlight.Switch", function(ply, state)
         ply:SetNWBool("DynamicFlashlight", not ply:GetNWBool("DynamicFlashlight"))
-        ply:EmitSound("items/flashlight1.wav", 60, 100)
+        ply:EmitSound("HL2Player.FlashLightOn")
 
         return false
     end)
