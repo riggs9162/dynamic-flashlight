@@ -49,8 +49,13 @@ if CLIENT then
     end)
 else
     hook.Add("PlayerSwitchFlashlight", "DynamicFlashlight.Switch", function(ply, state)
-        ply:SetNWBool("DynamicFlashlight", not ply:GetNWBool("DynamicFlashlight"))
-        ply:EmitSound("HL2Player.FlashLightOn")
+        local isAlive = ply:Alive()
+
+        if isAlive then
+            ply:EmitSound("HL2Player.FlashLightOn")
+        end
+
+        ply:SetNWBool("DynamicFlashlight", isAlive and (not ply:GetNWBool("DynamicFlashlight")) or false)
 
         return false
     end)
