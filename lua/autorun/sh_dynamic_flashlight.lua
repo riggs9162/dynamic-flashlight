@@ -55,3 +55,9 @@ else
         return false
     end)
 end
+
+local _ply = FindMetaTable( "Player" )
+
+_ply.FlashlightIsOn = function( self ) -- Overwrite the default function to preserve mod compatability
+	return self:GetNWBool("DynamicFlashlight")
+end
