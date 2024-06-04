@@ -1,2 +1,2 @@
-# Dynamic Flashlight
-Dynamic Flashlight is a tool that replaces the original flashlight from Garry's Mod or Half-Life 2 Base engine, and make it fully dynamic with it's light. Light emits as a glow on the players position and a projected texture which casts shadows on objects. This can improve realistic videos or roleplay servers, literally up to you.
+# Dynamic Flashlight System
+Dynamic Flashlight is a tool designed to enhance the original flashlight from Garry's Mod or the Half-Life 2 base engine, making it fully dynamic. This upgrade allows the flashlight to emit light that glows from the player's position and projects textures, casting realistic shadows on objects. This feature can significantly improve the realism in videos and enhance the atmosphere in roleplay servers, offering users a more immersive and visually appealing experience. Whether for cinematic purposes or gameplay, Dynamic Flashlight provides a versatile and powerful lighting solution.
