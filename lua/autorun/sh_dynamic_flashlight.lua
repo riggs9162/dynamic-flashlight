@@ -1,7 +1,7 @@
 CreateConVar("df_flashlight", 1, {FCVAR_ARCHIVE, FCVAR_REPLICATED}, "Enable / Disable the dynamic flashlight system.")
 CreateClientConVar("df_flashlight_shadow", 1, true, true, "Enable / Disable the shadows of the dynamic flashlight system.")
 CreateClientConVar("df_flashlight_shadow_self", 1, true, true, "Enable / Disable the shadows of the dynamic flashlight system for yourself.")
-CreateClientConVar("df_flashlight_fov", 70, true, true, "Set the field of view of the dynamic flashlight system.")
+CreateClientConVar("df_flashlight_fov", 75, true, true, "Set the field of view of the dynamic flashlight system.")
 CreateClientConVar("df_flashlight_distance", 900, true, true, "Set the distance of the dynamic flashlight system.")
 CreateClientConVar("df_flashlight_texture", "effects/flashlight001", true, true, "Set the texture of the dynamic flashlight system.")
 CreateClientConVar("df_flashlight_sound", "HL2Player.FlashLightOn", true, true, "Set the sound of the dynamic flashlight system.")
@@ -35,10 +35,12 @@ if ( CLIENT ) then
         for _, target in player.Iterator() do
             if ( hook.Run("ShouldDrawFlashlight", target) == true ) then
                 if ( target.DynamicFlashlight ) then
-                    local pos = target:GetShootPos() + target:GetAimVector() * 32
+                    local pos = target:GetShootPos() + target:GetAimVector() * 16
                     local ang = target:EyeAngles()
 
-                    pos = pos + ang:Forward() * 32
+                    debugoverlay.Line(pos, pos + ang:Forward() * distance, 0.1, Color(255, 0, 0), false)
+                    debugoverlay.Cross(pos, 5, 0.1, Color(255, 0, 255), false)
+                    debugoverlay.Cross(pos + ang:Forward() * distance, 5, 0.1, Color(255, 0, 255), false)
 
                     if ( !fov == target.DynamicFlashlightInfo.fov or !distance == target.DynamicFlashlightInfo.distance or !texture == target.DynamicFlashlightInfo.texture ) then
                         target.DynamicFlashlight:SetTexture(texture)
@@ -73,6 +75,15 @@ if ( CLIENT ) then
                     target.DynamicFlashlight:Remove()
                     target.DynamicFlashlight = nil
                 end
+            end
+        end
+    end)
+
+    hook.Add("OnReloaded", "DynamicFlashlight.Reloaded", function()
+        for _, target in player.Iterator() do
+            if ( target.DynamicFlashlight ) then
+                target.DynamicFlashlight:Remove()
+                target.DynamicFlashlight = nil
             end
         end
     end)
@@ -138,3 +149,5 @@ function PLAYER:Flashlight(bool)
     self:SetNWBool("DynamicFlashlight", bool)
     self:EmitSound("HL2Player.FlashLightOn")
 end
+
+print("Dynamic Flashlight System loaded.")
